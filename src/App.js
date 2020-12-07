@@ -6,6 +6,7 @@ import Usuario from './Templates/UsuarioView/Usuario'
 import Produto from './Templates/ProdutoView/Produto'
 import Fornecedor from './Templates/FornecedorView/Fornecedor'
 import Home from './Templates/Home'
+import Vendas from './Templates/VendasView/Vendas'
 
 
 
@@ -24,6 +25,7 @@ function App() {
         <Route path='/usuario' component={Usuario} />
         <Route path='/produto' component={Produto} />
         <Route path='/fornecedor' component={Fornecedor} />
+        <Route path='/vendas' component={Vendas} />
 
 
 

@@ -42,6 +42,16 @@ const Home = props => {
                                     </Header>
                                 </Segment>
                             </Grid.Column>
+
+                            <Grid.Column>
+                                <Segment circular>
+                                    <Header as={Link} to='/vendas'>Vendas
+                                <Header.Subheader>
+                                            <Icon name='id badge' />
+                                        </Header.Subheader>
+                                    </Header>
+                                </Segment>
+                            </Grid.Column>
                         </Grid>
                     </header>
                 </Container>
