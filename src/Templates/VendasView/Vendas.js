@@ -46,15 +46,6 @@ const Vendas = props => {
                             </Segment>
                         </Grid.Column>
 
-                        <Grid.Column>
-                            <Segment circular>
-                                <Header as={Link} to='/home'>Home
-                                <Header.Subheader>
-                                        <Icon name='home' />
-                                    </Header.Subheader>
-                                </Header>
-                            </Segment>
-                        </Grid.Column>
                     </Grid>
                 </Container>
 
