@@ -8,44 +8,48 @@ class VendaModel(banco.Model):
     __tablename = 'venda_model'
     id_venda = banco.Column(
         banco.Integer, primary_key=True, autoincrement=True)
-    qtd_produto = banco.Column(banco.Integer)
+    qtd_produtos = banco.Column(banco.Integer)
     valor_total = banco.Column(banco.Float)
     id_usuario = banco.Column(
         banco.Integer, banco.ForeignKey('usuario_model.id_usuario'))
-    venda_produto = banco.relationship('ProdutoModel', secondary=venda_produto, lazy='subquery',
-                                       backref=banco.backref('venda_produto', lazy=True))
+    produtos = banco.relationship('ProdutoModel', secondary=venda_produto, lazy='subquery',
+                                  backref=banco.backref('venda_produto', lazy=True))
 
     # CONSTRUTOR
-    def __init__(self, qtd_produto, valor_total, id_usuario):
-        self.qtd_produto = qtd_produto
+    def __init__(self, qtd_produtos, valor_total, id_usuario):
+        self.qtd_produtos = qtd_produtos
         self.valor_total = valor_total
         self.id_usuario = id_usuario
 
     def json(self):
         return {
-            'nome_fornecedor': self.nome_fornecedor,
-            'telefone': self.telefone,
-            'cpf_cnpjFornecedor': self.cpf_cnpjFornecedor,
-            'tipo_fornecedor': self.tipo_fornecedor
+            'qtd_produtos': self.qtd_produtos,
+            'valor_total': self.valor_total,
+            'id_usuario': self.id_usuario,
+            'produtos': [produto.json() for produto in self.produtos]
         }
 
     @classmethod
-    def find_fornecedor(cls, id_fornecedor):
-        fornecedor = cls.query.filter_by(id_fornecedor=id_fornecedor).first()
-        if fornecedor:
-            return fornecedor
+    def find_venda(cls, id_venda):
+        venda = cls.query.filter_by(id_venda=id_venda).first()
+        if venda:
+            return venda
         return None
 
-    def save_fornecedor(self):
+    def save_venda(self, lista_produtos):
+        for id_produto in lista_produtos:
+            produto = ProdutoModel.query.filter_by(
+                id_produto=id_produto).first()
+            self.produtos.append(produto)
         banco.session.add(self)
         banco.session.commit()
 
-    def update_fornecedor(self, nome, telefone, cpf, email):
-        self.nome_fornecedor = nomeFornecedor
+    def update_venda(self, qtd_produtos, valor_total, id_usuario):
+        self.nome_venda = nomeVenda
         self.telefone = telefone
-        self.cpf_cnpjFornecedor = cpf_cnpjFornecedor
-        self.tipo_fornecedor = tipoFornecedor
+        self.cpf_cnpjVenda = cpf_cnpjVenda
+        self.tipo_venda = tipoVenda
 
-    def delete_fornecedor(self):
+    def delete_venda(self):
         banco.session.delete(self)
         banco.session.commit()

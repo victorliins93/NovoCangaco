@@ -10,7 +10,7 @@ class UsuarioModel(banco.Model):
     email = banco.Column(banco.String)
     senha = banco.Column(banco.String)
     adm = banco.Column(banco.Integer, default=False, server_default="false")
-    venda_usuario = banco.relationship(
+    vendas = banco.relationship(
         'VendaModel', backref='addVenda', lazy='select')
 
     # CONSTRUTOR
@@ -25,7 +25,8 @@ class UsuarioModel(banco.Model):
             'id_usuario': self.id_usuario,
             'email': self.email,
             'senha': self.senha,
-            'adm': self.adm
+            'adm': self.adm,
+            'vendas': [venda.json() for venda in self.vendas]
         }
 
     @classmethod

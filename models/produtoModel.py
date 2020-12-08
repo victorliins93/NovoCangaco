@@ -1,5 +1,6 @@
 from sql_alchemy import banco
 from models.fornecedor_produtoModel import fornecedor_produto
+from models.fornecedorModel import FornecedorModel
 
 
 class ProdutoModel(banco.Model):
@@ -10,8 +11,8 @@ class ProdutoModel(banco.Model):
     nome_produto = banco.Column(banco.String)
     valor_produto = banco.Column(banco.Float(precision=2))
     qnt_estoque = banco.Column(banco.Integer)
-    fornecido = banco.relationship('FornecedorModel', secondary=fornecedor_produto, lazy='subquery',
-                                   backref=banco.backref('fornec', lazy=True))
+    fornecedores = banco.relationship(
+        'FornecedorModel', secondary=fornecedor_produto, back_populates='produtos')
     # CONSTRUTOR
 
     def __init__(self, nome_produto, valor_produto, qnt_estoque):
@@ -24,7 +25,8 @@ class ProdutoModel(banco.Model):
             'id_produto': self.id_produto,
             'nome_produto': self.nome_produto,
             'valor_produto': self.valor_produto,
-            'qnt_estoque': self.qnt_estoque
+            'qnt_estoque': self.qnt_estoque,
+            'fornecedores': [fornecedor.json() for fornecedor in self.fornecedores]
         }
 
     @classmethod
@@ -34,7 +36,12 @@ class ProdutoModel(banco.Model):
             return produto
         return None
 
-    def save_produto(self):
+    def save_produto(self, lista_fornecedores):
+        for id_fornecedor in lista_fornecedores:
+            fornecedor = FornecedorModel.query.filter_by(
+                id_fornecedor=id_fornecedor).first()
+            self.fornecido.append(fornecedor)
+
         banco.session.add(self)
         banco.session.commit()
 

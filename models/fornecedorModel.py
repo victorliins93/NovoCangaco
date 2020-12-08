@@ -1,4 +1,5 @@
 from sql_alchemy import banco
+from models.fornecedor_produtoModel import fornecedor_produto
 
 
 class FornecedorModel(banco.Model):
@@ -10,8 +11,11 @@ class FornecedorModel(banco.Model):
     telefone_fornecedor = banco.Column(banco.String)
     cpf_cnpjFornecedor = banco.Column(banco.String)
     tipo_fornecedor = banco.Column(banco.String)
+    produtos = banco.relationship(
+        'ProdutoModel', secondary=fornecedor_produto, back_populates='fornecedores')
 
     # CONSTRUTOR
+
     def _init_(self, nome_fornecedor, telefone_fornecedor, cpf_cnpjFornecedor, tipo_fornecedor):
         self.nome_fornecedor = nome_fornecedor
         self.telefone_fornecedor = telefone_fornecedor

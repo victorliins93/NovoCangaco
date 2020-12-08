@@ -5,11 +5,7 @@ from sql_alchemy import banco
 
 class Fornecedores(Resource):
     def get(self):
-        fornecedors = FornecedorModel.query.all()
-        lista_fornecedor = []
-        for fornecedor in fornecedors:
-            lista_fornecedor.append(fornecedor.json())
-        return lista_fornecedor
+        return {'fornecedores': [fornecedor.json() for fornecedor in FornecedorModel.query.all()]}
 
 
 class Fornecedor(Resource):
@@ -28,7 +24,7 @@ class Fornecedor(Resource):
 
     def post(self, id_fornecedor):
         dados = Fornecedor.atributos.parse_args()
-        print(dados)
+        print('dados')
         fornecedor = FornecedorModel(**dados)
         fornecedor.save_fornecedor()
         return fornecedor.json()
