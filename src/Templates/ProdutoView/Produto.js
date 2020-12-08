@@ -15,7 +15,7 @@ const Produto = props => {
 
                     <h2>Menu de Produtos</h2>
 
-                    <Grid columns={2}>
+                    <Grid columns={3}>
                         <Grid.Column>
                             <Segment circular>
                                 <Header as={Link} to='/cadastroproduto'>Adicionar Produto

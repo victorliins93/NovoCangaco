@@ -15,7 +15,7 @@ const Fornecedor = props => {
 
                     <h2>Menu de Fornecedores</h2>
 
-                    <Grid columns={2}>
+                    <Grid columns={3}>
                         <Grid.Column>
                             <Segment circular>
                                 <Header as={Link} to='/cadastrofornecedor'>Adicionar Fornecedor
